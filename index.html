@@ -1,3 +1,76 @@
 <!DOCTYPE html>
 <title>cheeaungit</title>
-<h1>cheeaungit</h1>
+<style>
+body {
+	color: #000;
+	background-color: #fff;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 80%;
+	text-align: center;
+}
+#container{
+	margin: 0 auto;
+	width: 700px;
+}
+h1{
+	font-size: 3em;
+}
+h1 a,
+dt a{
+	color: #000;
+	background-color: transparent;
+	text-decoration: none;
+	border-bottom: 2px solid #fafafa;
+}
+h1 a:hover,
+dt a:hover{
+	border-color: #000;
+}
+dt{
+	font-size: 1.62em;
+	font-weight: bold;
+}
+dd{
+	color: #ccc;
+	background-color: transparent;
+}
+dt, dd{
+	display: inline;
+	line-height: 1.5em;
+	margin: 1em;
+	padding: 0;
+}
+#repos-list{
+	text-align: center;
+	margin: 2em 0;
+}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools-yui-compressed.js"></script>
+<script src="http://github.com/cheeaun/moohub/raw/master/JsonP.js"></script>
+<script src="http://github.com/cheeaun/moohub/raw/master/moohub.js"></script>
+<script>
+	window.addEvent('domready', function(){
+		var reposList = $('repos-list').addEvent('mouseover', function(e){
+			if (e.target.nodeName.toLowerCase() != 'a') return;
+			e.target.highlight().getParent('dt').getNext('dd').highlight();
+		});
+		
+		var mh = new MooHub();
+		mh.grabUserInfo('cheeaun', function(d){
+			console.log(d);
+			var repos = d.user.repositories;
+			var html = '<dl>';
+			repos.each(function(repo){
+				if (repo.private) return;
+				html += '<dt><a href="{url}">{name}</a></dt><dd>{description} &middot; ({forks}f/{watchers}w)</dd>'.substitute(repo);
+			});
+			html += '</dl>';
+			reposList.set('html', html);
+		});
+	});
+</script>
+<div id="container">
+<h1><a href="http://github.com/cheeaun">cheeaun</a>git</h1>
+<div id="repos-list"></div>
+<p>This is definitely <strong>NOT</strong> a tag cloud.</p>
+</div>
