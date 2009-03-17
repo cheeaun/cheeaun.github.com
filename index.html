@@ -10,7 +10,6 @@ body {
 }
 #container{
 	margin: 0 auto;
-	width: 700px;
 }
 h1{
 	font-size: 3em;
@@ -29,6 +28,7 @@ dt a:hover{
 dt{
 	font-size: 1.62em;
 	font-weight: bold;
+	white-space: nowrap;
 }
 dd{
 	color: #ccc;
@@ -47,14 +47,11 @@ dt, dd{
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools-yui-compressed.js"></script>
 <script src="http://github.com/cheeaun/moohub/raw/master/JsonP.js"></script>
+<script src="http://github.com/cheeaun/shuffletext.js/raw/master/shuffleText.js"></script>
 <script src="http://github.com/cheeaun/moohub/raw/master/moohub.js"></script>
 <script>
 	window.addEvent('domready', function(){
-		var reposList = $('repos-list').addEvent('mouseover', function(e){
-			if (e.target.nodeName.toLowerCase() != 'a') return;
-			e.target.highlight().getParent('dt').getNext('dd').highlight();
-		});
-		
+		var reposList = $('repos-list');
 		var mh = new MooHub();
 		mh.grabUserInfo('cheeaun', function(d){
 //			console.log(d);
@@ -66,6 +63,19 @@ dt, dd{
 			});
 			html += '</dl>';
 			reposList.set('html', html);
+			reposList.getElements('a').each(function(el){
+				var shuffle = new shuffleText(el);
+				var dd = el.getParent('dt').getNext('dd');
+				el.addEvents({
+					mouseenter: function(){
+						shuffle.start();
+						dd.tween('color', '#000');
+					},
+					mouseleave: function(){
+						dd.tween('color', '#ccc');
+					}
+				});
+			});
 		});
 	});
 </script>
