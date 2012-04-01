@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<title>cheeaungit</title>
 <meta charset="UTF-8">
+<title>cheeaungit</title>
 <meta name="viewport" content="width=device-width; initial-scale=1">
 <style>
 body {
@@ -18,9 +18,8 @@ h1{
 }
 h1 a{
 	display: block;
-	padding: 0 20px;
-	line-height: 32px;
-	min-height: 32px;
+	line-height: 20px;
+	padding: 6px 20px;
 	border-bottom: 1px solid #ddd;
 }
 #projects-count{
@@ -28,6 +27,7 @@ h1 a{
 	color: #ccc;
 	display: inline-block;
 	line-height: 1.3em;
+	margin-left: .5em;
 }
 a{
 	color: #666;
@@ -54,9 +54,8 @@ a:hover{
 #repos-list li a{
 	position: relative;
 	display: block;
-	line-height: 32px;
-	min-height: 32px;
-	padding: 0 20px;
+	line-height: 20px;
+	padding: 6px 20px;
 	overflow: hidden;
 }
 #repos-list li:nth-child(odd) a{
@@ -75,6 +74,7 @@ a:hover{
 	color: #ccc;
 	display: inline-block;
 	line-height: 1.3em;
+	margin-left: .5em;
 }
 #projects-info,
 #repos-list li a .info{
@@ -105,8 +105,8 @@ var reposList = document.getElementById('repos-list'),
 	projectsCount = document.getElementById('projects-count'),
 	projectsInfo = document.getElementById('projects-info'),
 	load = function(data){
-		if (!data || !data.repositories || !data.repositories.length) return;
-		var repositories = data.repositories,
+		if (!data || !data.data || !data.data.length) return;
+		var repositories = data.data,
 			html = '';
 		repositories.sort(function(a, b){
 			var aFork = a.fork, bFork = b.fork;
@@ -124,7 +124,7 @@ var reposList = document.getElementById('repos-list'),
 			f += r.forks;
 			fork ? lf++ : lp++;
 			html += '<li' + fork + '>'
-				+ '<a href="' + r.url + '">'
+				+ '<a href="' + r.html_url + '">'
 				+ '<span class="info"><b class="language">' + (r.language || '') + '</b> <b class="watchers">' + watchers + '</b> <b class="forks">' + forks + '</b></span>'
 				+ '<b>' + r.name + '</b> '
 				+ '<span class="desc">' + r.description + '</span>'
@@ -135,4 +135,4 @@ var reposList = document.getElementById('repos-list'),
 		projectsInfo.innerHTML = '<b class="watchers">' + w + '</b> <b class="forks">' + f + '</b>';
 	};
 </script>
-<script src="http://github.com/api/v2/json/repos/show/cheeaun?callback=load"></script>
+<script src="https://api.github.com/users/cheeaun/repos?callback=load&per_page=100"></script>
