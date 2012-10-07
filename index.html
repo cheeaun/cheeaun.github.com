@@ -65,10 +65,16 @@ a:hover{
 	color: #fff;
 	background-color: #666;
 }
-#repos-list li.fork a{
-	background-repeat: no-repeat;
-	background-position: left center;
-	background-image: url(fork.png);
+#repos-list li.fork a:before{
+	color: #999;
+	content: '\2646';
+	position: absolute;
+	left: 5px;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	transform: rotate(90deg);
 }
 #repos-list li a .desc{
 	color: #ccc;
@@ -81,21 +87,23 @@ a:hover{
 	float: right;
 	clear: right;
 }
-#projects-info b,
-#repos-list li a .info b{
+b.stars,
+b.forks{
 	font-weight: bold;
 	display: inline-block;
-	padding-left: 20px;
-	background-repeat: no-repeat;
-	background-position: left center;
 }
-#projects-info b.watchers,
-#repos-list li a .info b.watchers{
-	background-image: url(watchers.png);
+b.stars:before,
+b.forks:before{
+	display: inline-block;
+	font-size: 14px;
+	width: 20px;
+	text-align: center;
 }
-#projects-info b.forks,
-#repos-list li a .info b.forks{
-	background-image: url(forks.png);
+b.stars:before{
+	content: '\2605';
+}
+b.forks:before{
+	content: '\2646';
 }
 </style>
 <h1><a href="http://github.com/cheeaun"><span id="projects-info"></span>cheeaungit <span id="projects-count"></span> </a></h1>
@@ -125,14 +133,14 @@ var reposList = document.getElementById('repos-list'),
 			fork ? lf++ : lp++;
 			html += '<li' + fork + '>'
 				+ '<a href="' + r.html_url + '">'
-				+ '<span class="info"><b class="language">' + (r.language || '') + '</b> <b class="watchers">' + watchers + '</b> <b class="forks">' + forks + '</b></span>'
+				+ '<span class="info"><b class="language">' + (r.language || '') + '</b> <b class="stars">' + watchers + '</b> <b class="forks">' + forks + '</b></span>'
 				+ '<b>' + r.name + '</b> '
 				+ '<span class="desc">' + r.description + '</span>'
 				+ '</a>';
 		}
 		reposList.innerHTML = html;
 		projectsCount.innerHTML = l + ' repositories; ' + lp + ' public, ' + lf + ' forks';
-		projectsInfo.innerHTML = '<b class="watchers">' + w + '</b> <b class="forks">' + f + '</b>';
+		projectsInfo.innerHTML = '<b class="stars">' + w + '</b> <b class="forks">' + f + '</b>';
 	};
 </script>
 <script src="https://api.github.com/users/cheeaun/repos?callback=load&per_page=100"></script>
